@@ -1,14 +1,28 @@
+/*Craete table kommando 
+navn datatype og lengde på datatype
+*/
+CREATE TABLE Branche(
+    branche_id int(4),
+    branche_name VARCHAR(50),
+    mgr_id int(4),
+    mgr_starteDate DATETIME(6)
+    
+)
+/* Insert statement*/
+INSERT INTO client (client_id,client_name, branche_id)
+VALUES
+(400,'Dunmore Highschool',2)
 /*
 Rekkefølgen  i SQL er 
 spørringen må stå i denne rekke følgen
-*/
-SELECT
+
+SELECT 
 FROM 
 WHERE
 GROUP BY 
 HAVING 
 ORDER BY
-/*
+
 Funksjoner for beregning av datoer
 Funksjon i Microsoft sql server som konverterer datoer
 DATENAME gir dette formatet:Friday 16 July 1993
