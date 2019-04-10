@@ -13,6 +13,11 @@ INSERT INTO client (client_id,client_name, branche_id)
 VALUES
 (400,'Dunmore Highschool',2)
 /*
+
+/*Hvordan velge bare en av hver forekomst i tabellen
+*/
+SELECT DISTINCT branch_id FROM employee
+/*
 Rekkefølgen  i SQL er 
 spørringen må stå i denne rekke følgen
 
@@ -35,6 +40,7 @@ FilmName
 DATENAME(DD,FilmReleaseDate)+' '+
 DATENAME(MM,FilmReleaseDate)+' '+
 DATENAME(YY,FilmReleaseDate)
+ 
 
 from tblFilm
 /*
@@ -93,3 +99,17 @@ hvor man legger sammen totalen for alle
 GROUP BY CountryName with rollup
 HAVING brukes her på samme måte som WHERE, men kan brukes sammen med aggregated functions (SUM,AVG,MIN,MAX,osv)
 */
+/*VIEWS
+Views er utsnitt av tabeller i en database
+Man kan sette sammen views med joins for å lette spørringen 
+*/
+CREATE VIEW viewFilmCountryDirector AS
+SELECT  [FilmName] AS 'Filmname',[FilmReleaseDate]AS 'Release date',[FilmOscarNominations]AS 'Oscar Nominations',[FilmOscarWins] As 'Oscarwins',[CountryName],[DirectorName]
+FROM tblFilm
+INNER JOIN tblCountry As C on C.[CountryID]= tblFilm.FilmCountryID
+Inner JOIN tblDirector AS D on d.DirectorID= tblFilm.FilmDirectorID
+/*
+
+Man kan simpelten bruke SELECT * i et customview  isteden for 
+Inner Join table A on tableB*/
+SELECT * FROM viewFilmCountryDirector
