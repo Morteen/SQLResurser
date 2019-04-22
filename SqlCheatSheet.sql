@@ -99,6 +99,38 @@ hvor man legger sammen totalen for alle
 GROUP BY CountryName with rollup
 HAVING brukes her på samme måte som WHERE, men kan brukes sammen med aggregated functions (SUM,AVG,MIN,MAX,osv)
 */
+
+/*Sub queries og Correlated Subqueries
+En sub query er en spørring på inn siden av en spørring hvor man bruker resultatet i en where  */
+select
+ C.CountryName,
+ F.FilmName,
+ F.FilmRunTimeMinutes
+ FROM tblFilm AS F INNER JOIN tblCountry as C 
+ ON C.CountryId= F.FilmCountryID
+ WHERE F.FilmRunTimeMinutes =
+	(
+		SELECT MAX(FilmRunTimeMinutes)FROM tblFilm 
+		
+	)
+/*En Correlated Subqueries er en subqueriy med en where inni 
+I dette eksempelet gjør den at man kan finne den lengste filmen for hvert land isteden for bare den 
+lengste filmen i databasen*/
+select
+ C.CountryName,
+ F.FilmName,
+ F.FilmRunTimeMinutes
+ FROM tblFilm AS F INNER JOIN tblCountry as C 
+ ON C.CountryId= F.FilmCountryID
+ WHERE F.FilmRunTimeMinutes =
+	(
+		SELECT MAX(FilmRunTimeMinutes)FROM tblFilm AS G
+		WHERE G.FilmCountryID= F.FilmCountryID
+	)
+
+/*/////////////////////////////////////////////////////////*/
+
+
 /*VIEWS
 Views er utsnitt av tabeller i en database
 Man kan sette sammen views med joins for å lette spørringen 
