@@ -115,7 +115,8 @@ select
 	)
 /*En Correlated Subqueries er en subqueriy med en where inni 
 I dette eksempelet gjør den at man kan finne den lengste filmen for hvert land isteden for bare den 
-lengste filmen i databasen*/
+lengste filmen i databasen
+Man henter her data fra tblFilm to ganger. Det er veldig viktig å ha forskjellige aliaser på dem*/
 select
  C.CountryName,
  F.FilmName,
