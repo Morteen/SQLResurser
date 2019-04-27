@@ -146,3 +146,47 @@ Inner JOIN tblDirector AS D on d.DirectorID= tblFilm.FilmDirectorID
 Man kan simpelten bruke SELECT * i et customview  isteden for 
 Inner Join table A on tableB*/
 SELECT * FROM viewFilmCountryDirector
+
+--Variabler i sql 
+/*Man kan deklarere  variabler i sql  med syntaksen*/
+DECLARE @tablename  NVARCHAR(128)
+--Verdien setter man ved å 
+SET @tablename=
+
+
+DECLARE @tablename  NVARCHAR(128)
+DECLARE @SQLquery  NVARCHAR(MAX)
+
+SET @tablename = N'tblfilm'
+SET @SQLquery =  N'select * from '+  @tablename
+
+--STORED PROSEDURE
+EXEC SP_EXECUTESQL @SQLquery
+
+
+
+--Dynamisk sql
+EXECUTE('select * from tblfilm')
+--STORED PROSEDURE
+EXEC SP_EXECUTESQL N'select * from tblfilm'
+
+/* Man lager en stored procedure ved å bruke CREATE PROC navn, sql koden og så kjøre koden proseduren er nå lagret 
+Åpne et nytt vindu og kjør EXCE  procedurenavnet og parametere 
+EXEC spFilmYears '2000,2001'
+*/
+CREATE PROC spFilmYears
+(
+ @YearList NVARCHAR(MAX)
+)
+
+AS
+BEGIN
+	DECLARE @SQLstring NVARCHAR(MAX)
+	SET @SQlstring =
+	N'SELECT * FROM tblFilm
+	WHERE YEAR(tblFilm.FilmReleaseDate) IN(' + @YearList + N')
+	ORDER BY tblFilm.FilmReleaseDate'
+	
+
+	EXEC SP_EXECUTESQL @SQLstring
+END
