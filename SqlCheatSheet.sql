@@ -146,34 +146,56 @@ Inner JOIN tblDirector AS D on d.DirectorID= tblFilm.FilmDirectorID
 Man kan simpelten bruke SELECT * i et customview  isteden for 
 Inner Join table A on tableB*/
 SELECT * FROM viewFilmCountryDirector
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////           sql PROGRAMMERING                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 --Variabler i sql 
 /*Man kan deklarere  variabler i sql  med syntaksen*/
 DECLARE @tablename  NVARCHAR(128)
 --Verdien setter man ved å 
-SET @tablename=
+SET @tablename='MinTabel'
 
-
+--Eksempel
 DECLARE @tablename  NVARCHAR(128)
 DECLARE @SQLquery  NVARCHAR(MAX)
 
 SET @tablename = N'tblfilm'
 SET @SQLquery =  N'select * from '+  @tablename
 
---STORED PROSEDURE
+--STORED PROCEDURE
 EXEC SP_EXECUTESQL @SQLquery
 
 
 
 --Dynamisk sql
 EXECUTE('select * from tblfilm')
---STORED PROSEDURE
+--STORED PROCEDURE
 EXEC SP_EXECUTESQL N'select * from tblfilm'
 
 /* Man lager en stored procedure ved å bruke CREATE PROC navn, sql koden og så kjøre koden proseduren er nå lagret 
 Åpne et nytt vindu og kjør EXCE  procedurenavnet og parametere 
 EXEC spFilmYears '2000,2001'
 */
+--Eksempel
+USE Movies
+GO
+ALTER PROC spFilmCriteria
+	(
+		@MinLength AS INT =NULL,
+		@MaxLength AS INT = NULL,
+		@Title AS  VARCHAR(MAX)
+	)
+AS
+BEGIN
+	SELECT FilmName, FilmRunTimeMinutes 
+	FROM tblFilm
+	WHERE 
+	(@MinLength IS NULL OR FilmRunTimeMinutes>=@MinLength)AND 
+	(@MaxLength IS NULL OR FilmRunTimeMinutes<=@MaxLength)AND 
+	FilmName LIKE '%' + @Title + '%'
+	ORDER BY FilmRunTimeMinutes ASC
+END
+--Nytt eksempel
 CREATE PROC spFilmYears
 (
  @YearList NVARCHAR(MAX)
@@ -190,3 +212,6 @@ BEGIN
 
 	EXEC SP_EXECUTESQL @SQLstring
 END
+/* CASTING AV VERDIER TIL ANDRE VERDIER*/
+ 'Number of films '+cast(@NumFilms AS VARCHAR)
+ /*Her blir @Numfilms som er en INT omgjort til VARCHAR*/
